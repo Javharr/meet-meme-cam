@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Meme Cam</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="hd">
+    <img class="logo" src="icons/icon48.png" alt="">
+    <div class="brand">
+      <h1 class="word">Meme<span>Cam</span></h1>
+      <p id="sub" class="sub">ищу вкладку Meet…</p>
+    </div>
+    <label class="pw" title="Питание: всё расширение">
+      <input type="checkbox" id="enabled">
+      <span class="pw-key"><i></i><b></b></span>
+    </label>
+  </header>
+
+  <ul class="lcd" id="status" aria-label="Состояние">
+    <li data-k="camera"><i></i><b>Кам</b><span>—</span></li>
+    <li data-k="ai"><i></i><b>ИИ</b><span>—</span></li>
+    <li data-k="mic"><i></i><b>Хлоп</b><span>—</span></li>
+    <li data-k="plate"><i></i><b>Фон</b><span>—</span></li>
+  </ul>
+
+  <nav class="tabs" role="tablist" aria-label="Разделы">
+    <button role="tab" data-tab="memes" id="tab-memes" aria-controls="p-memes"><em>01</em>Мемы</button>
+    <button role="tab" data-tab="gest" id="tab-gest" aria-controls="p-gest"><em>02</em>Жесты</button>
+    <button role="tab" data-tab="vanish" id="tab-vanish" aria-controls="p-vanish"><em>03</em>Пепел</button>
+    <button role="tab" data-tab="lasers" id="tab-lasers" aria-controls="p-lasers"><em>04</em>Лазер</button>
+    <button role="tab" data-tab="more" id="tab-more" aria-controls="p-more"><em>05</em>Ещё</button>
+  </nav>
+
+  <main id="body">
+    <!-- 01 · Мемы -->
+    <section class="panel" id="p-memes" role="tabpanel" aria-labelledby="tab-memes">
+      <div class="chans">
+        <label class="chan"><input type="checkbox" id="memesFace"><span class="tg"></span><span>Мимика</span></label>
+        <label class="chan"><input type="checkbox" id="memesHands"><span class="tg"></span><span>Жесты рукой</span></label>
+      </div>
+
+      <div class="pads" id="chips" role="listbox" aria-label="Мемы"></div>
+
+      <div class="editor" id="editor">
+        <div class="ed-head">
+          <div class="thumb-box" id="edThumb"></div>
+          <div class="ed-t"><b id="edTitle">—</b><small id="edHow">—</small></div>
+          <label class="chan chan-solo" title="Мем вкл/выкл"><input type="checkbox" id="edOn"><span class="tg"></span></label>
+        </div>
+        <label class="fld">
+          <span class="lbl">Подпись</span>
+          <input class="text" id="edCaption" maxlength="40" placeholder="как есть">
+        </label>
+        <div class="ed-actions">
+          <button class="btn" id="edUpload">Картинка / GIF</button>
+          <button class="btn" id="edReset">Сброс</button>
+          <button class="btn btn-go" id="edTest">Показать</button>
+        </div>
+        <input type="file" id="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+      </div>
+    </section>
+
+    <!-- 02 · Свои жесты -->
+    <section class="panel" id="p-gest" role="tabpanel" aria-labelledby="tab-gest">
+      <div class="sec-h">
+        <span class="lbl">Свои жесты</span>
+        <label class="chan chan-solo"><input type="checkbox" id="customGestures"><span class="tg"></span></label>
+      </div>
+      <div class="live" id="live"></div>
+      <ul class="glist" id="glist"></ul>
+      <div class="add">
+        <input class="text emoji-in" id="gEmoji" maxlength="4" value="✨" aria-label="Эмодзи">
+        <input class="text" id="gName" maxlength="20" placeholder="Название" aria-label="Название жеста">
+        <button class="btn btn-go" id="gAdd">Записать</button>
+      </div>
+      <p class="note" id="gNote"></p>
+    </section>
+
+    <!-- 03 · Исчезновение -->
+    <section class="panel" id="p-vanish" role="tabpanel" aria-labelledby="tab-vanish">
+      <div class="sec-h">
+        <span class="lbl">Исчезновение · два хлопка</span>
+        <label class="chan chan-solo"><input type="checkbox" id="vanish"><span class="tg"></span></label>
+      </div>
+      <div class="vanish-body" id="vanishBody">
+        <div class="vf">
+          <canvas id="dust" aria-label="Превью частиц"></canvas>
+          <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+        </div>
+        <div class="field">
+          <div class="field-h"><span class="lbl">Частицы</span><output id="dustOut">4 px</output></div>
+          <input type="range" id="dustSize" min="2" max="12" step="1">
+          <div class="scale"><span>пыль</span><span>кубики</span></div>
+        </div>
+        <div class="field">
+          <div class="field-h"><span class="lbl">Хлопок</span></div>
+          <div class="seg" id="clapSensitivity" role="radiogroup">
+            <button data-v="low" role="radio">Тихо</button>
+            <button data-v="normal" role="radio">Норма</button>
+            <button data-v="high" role="radio">Чутко</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-go" id="btnVanish">Исчезнуть</button>
+          <button class="btn" id="btnPlate">Снять фон</button>
+        </div>
+        <p class="note" id="plateNote"></p>
+      </div>
+    </section>
+
+    <!-- 04 · Лазеры -->
+    <section class="panel" id="p-lasers" role="tabpanel" aria-labelledby="tab-lasers">
+      <div class="sec-h">
+        <span class="lbl">Лазеры из глаз · нахмурься</span>
+        <label class="chan chan-solo"><input type="checkbox" id="lasers"><span class="tg"></span></label>
+      </div>
+      <div class="lasers-body" id="lasersBody">
+        <div class="vf">
+          <canvas id="laserPrev" aria-label="Превью лазеров"></canvas>
+          <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+        </div>
+        <div class="live" id="frownLive"></div>
+        <div class="field">
+          <div class="field-h"><span class="lbl">Цвет</span></div>
+          <div class="seg seg-sw" id="laserColor" role="radiogroup">
+            <button data-v="red" role="radio">Красный</button>
+            <button data-v="green" role="radio">Зелёный</button>
+            <button data-v="blue" role="radio">Синий</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-go" id="btnLasers">Пиу</button>
+          <button class="btn" id="btnLaserCalib">Калибровка</button>
+        </div>
+        <p class="note" id="laserNote"></p>
+      </div>
+    </section>
+
+    <!-- 05 · Ещё -->
+    <section class="panel" id="p-more" role="tabpanel" aria-labelledby="tab-more">
+      <div class="sec-h">
+        <span class="lbl">Калибровка мимики</span>
+        <button class="btn btn-sm" id="btnCalib">Начать</button>
+      </div>
+      <div class="calib" id="calib"></div>
+
+      <div class="rows">
+        <label class="row">
+          <span class="row-t"><b>Зеркало в моём окне</b><small>Только у тебя. Собеседники видят как обычно</small></span>
+          <span class="chan chan-solo"><input type="checkbox" id="previewMirror"><span class="tg"></span></span>
+        </label>
+        <label class="row">
+          <span class="row-t"><b>Отладка поверх видео</b><small>Цифры увидят все участники</small></span>
+          <span class="chan chan-solo"><input type="checkbox" id="hud"><span class="tg"></span></span>
+        </label>
+        <label class="row">
+          <span class="row-t"><b>Старый движок камеры</b><small id="engineNote">Если в звонке что-то не так</small></span>
+          <span class="chan chan-solo"><input type="checkbox" id="engineCanvas"><span class="tg"></span></span>
+        </label>
+      </div>
+
+      <details class="keys">
+        <summary><span class="lbl">Горячие клавиши</span></summary>
+        <dl>
+          <dt><kbd>⌃⇧V</kbd></dt><dd>исчезнуть / появиться</dd>
+          <dt><kbd>⌃⇧P</kbd></dt><dd>снять фон</dd>
+          <dt><kbd>⌃⇧L</kbd></dt><dd>лазеры на 3 секунды</dd>
+          <dt><kbd>⌃⇧1</kbd><kbd>2</kbd><kbd>3</kbd></dt><dd>шок, лайк, огонь</dd>
+          <dt><kbd>⌃⇧M</kbd></dt><dd>зеркало в моём окне</dd>
+          <dt><kbd>⌃⇧A</kbd></dt><dd>пауза распознавания</dd>
+        </dl>
+      </details>
+    </section>
+  </main>
+
+  <script src="settings.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

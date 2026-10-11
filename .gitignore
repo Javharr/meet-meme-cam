@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# build output
+dist/
+*.zip
+
+# editors
+.vscode/
+.idea/
+*.swp
+
+# local experiments
+_old/
+node_modules/

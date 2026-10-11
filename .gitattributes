@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+*.task      binary
+*.tflite    binary
+*.wasm      binary
+*.woff2     binary
+*.png       binary
+
+# third-party code: keep it out of GitHub's language stats
+extension/vendor/** linguist-vendored

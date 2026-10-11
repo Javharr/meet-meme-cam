@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Meme Cam",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Faces, hand gestures and claps turn into memes, a pixel-dust vanish and laser eyes that everyone in your Google Meet call can see.",
+    "description": "Extension description (max 132 chars)"
+  }
+}
